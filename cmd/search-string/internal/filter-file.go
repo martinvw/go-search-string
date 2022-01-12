@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+// LoadFilterFile Load all filters from the given filter file
+// all filters will be pre/postfixed with the given prefix / postfix
 func LoadFilterFile(filename string, prefix string, postfix string) []string {
 	searchStrings := make([]string, 0)
 
