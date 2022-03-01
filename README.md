@@ -18,10 +18,12 @@ go get -u github.com/martinvw/go-search-string/cmd/search-string
 Usage of search_string:
   -f string
         filename containing filter values
-  --postfix string
-        postfix to apply to every search string
-  --prefix string
-        postfix to apply to every search string
+  -locator-postfix string
+        postfix used to locate/extract the target string
+  -locator-prefix string
+        prefix used to locate/extract the target string
+  -needle-prefix string
+        prefix to apply to every search string
 ```
 
 ## Release & Downloads
@@ -33,11 +35,11 @@ Releases and binary builds can be found at [GitHub / Releases](https://github.co
 To find a set of subdomains in a big file, the usage could be as follows:
 
 ```bash
-cat "big-haystack.txt" | search-string -f "needles.txt" --prefix "." --postfix "\""
+cat "big-haystack.txt" | search-string -f "needles.txt" --locator-prefix 'name":"' --locator-postfix "\"" --needle-prefix "."
 
 # Or using compressed input & pigz
-pigz -dc "big-haystack.gz" | search-string -f "needles.txt" --prefix "." --postfix "\""
+pigz -dc "big-haystack.gz" | search-string -f "needles.txt" --locator-prefix 'name":"' --locator-postfix "\"" --needle-prefix "."
 
 # Or combining the above with GNU parallel
-pigz -dc "big-haystack.gz" | parallel --pipe --block 100M -q search-string -f "$input" --prefix "." --postfix "\""
+pigz -dc "big-haystack.gz" | parallel --pipe --block 100M -q search-string -f "$input" --locator-prefix 'name":"' --locator-postfix "\"" --needle-prefix "."
 ```

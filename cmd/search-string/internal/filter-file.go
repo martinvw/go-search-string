@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 )
 
 // LoadFilterFile Load all filters from the given filter file
 // all filters will be pre/postfixed with the given prefix / postfix
-func LoadFilterFile(filename string, prefix string, postfix string) []string {
+func LoadFilterFile(filename string, prefix string) []string {
 	searchStrings := make([]string, 0)
 
 	file, err := os.Open(filename)
@@ -20,12 +21,14 @@ func LoadFilterFile(filename string, prefix string, postfix string) []string {
 
 	fileScanner := bufio.NewScanner(file)
 	for fileScanner.Scan() {
-		searchStrings = append(searchStrings, prefix+fileScanner.Text()+postfix)
+		searchStrings = append(searchStrings, Reverse(prefix+fileScanner.Text()))
 	}
 
 	if err := fileScanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+
+	sort.Strings(searchStrings)
 
 	return searchStrings
 }
