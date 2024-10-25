@@ -69,6 +69,10 @@ func findPotentialNeedle(haystack string, prefix string, postfix string) string 
 		}
 	}
 	endIndex := strings.Index(haystack[beginIndex:], postfix)
+	// if we cannot find postfix, we have a mismatch
+	if endIndex == -1 {
+		return ""
+	}
 	return internal.Reverse(haystack[beginIndex : beginIndex+endIndex])
 }
 
