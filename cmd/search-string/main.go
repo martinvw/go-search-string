@@ -26,7 +26,7 @@ func init() {
 func main() {
 	flag.Parse()
 
-	if file == "" || prefix == "" {
+	if file == "" {
 		flag.Usage()
 		os.Exit(1)
 	}
@@ -59,9 +59,14 @@ func processStdIn(searchStrings []string) {
 }
 
 func findPotentialNeedle(haystack string, prefix string, postfix string) string {
-	beginIndex := strings.Index(haystack, prefix) + len(prefix)
-	if beginIndex == -1 {
-		return ""
+	beginIndex := 0
+	if prefix == "" {
+		beginIndex = 0
+	} else {
+		beginIndex = strings.Index(haystack, prefix) + len(prefix)
+		if beginIndex == -1 {
+			return ""
+		}
 	}
 	endIndex := strings.Index(haystack[beginIndex:], postfix)
 	return internal.Reverse(haystack[beginIndex : beginIndex+endIndex])
