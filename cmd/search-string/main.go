@@ -4,11 +4,12 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/martinvw/go-search-string/cmd/search-string/internal"
 	"log"
 	"os"
 	"sort"
 	"strings"
+
+	"github.com/martinvw/go-search-string/cmd/search-string/internal"
 )
 
 var file string
@@ -68,17 +69,15 @@ func findPotentialNeedle(haystack string, prefix string, postfix string) string 
 			return ""
 		}
 	}
-	endIndex := strings.Index(haystack[beginIndex:], postfix)
-	// if we cannot find postfix, we have a mismatch
-	if endIndex == -1 {
-		return ""
+	endIndex := 0
+	if postfix == "" {
+		endIndex = len(haystack) - beginIndex
+	} else {
+		endIndex = strings.Index(haystack[beginIndex:], postfix)
+		// if we cannot find postfix, we have a mismatch
+		if endIndex == -1 {
+			return ""
+		}
 	}
 	return internal.Reverse(haystack[beginIndex : beginIndex+endIndex])
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
